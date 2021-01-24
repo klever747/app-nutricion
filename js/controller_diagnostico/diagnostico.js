@@ -91,13 +91,15 @@ function editarDiagnostico(){
 			data: {action: action, diagnosticoEdit:diagnosticoEdit,idDiagnostico :idDiagnostico },
 
 		success: function(response){
-		 console.log(response);
 		  //var info = JSON.parse(response);
 		  
 		  if(response == 'The process was successfull'){
 		  	$('#modals_editar_diagnostico').modal('hide');
 		  	return Swal.fire("Mensaje de Confirmación", "El diagnostico se actualizo con éxito", "success");
 		 	 
+		  }else if(response == 'campos_vacios'){
+
+		  		return Swal.fire("Mensaje de Advertencia", "Diagnostico no actualizado llene los campos vacios", "warning");
 		  }else{
 
 		  	return Swal.fire("Mensaje de Advertencia", "Diagnostico no actualizado", "warning");

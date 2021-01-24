@@ -104,7 +104,11 @@ function Registrar_encuesta(){
 			}else if(response == 'no_hay_id_nutricionista'){
 
 				return Swal.fire("Mensaje de Advertencia", "Falta identificacion del nutricionista", "warning");
-			}else if(response == 'no_hay_accion'){
+			}else if(response == 'campos_vacios'){
+
+				return Swal.fire("Mensaje de Advertencia", "Llene los campos vacios", "warning");
+
+			} if(response == 'no_hay_accion'){
 
 				return Swal.fire("Mensaje de Advertencia", "Falta accion", "warning");
 			}else if(response == 'no_hay_datos'){

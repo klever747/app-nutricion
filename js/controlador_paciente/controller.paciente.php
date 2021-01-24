@@ -122,7 +122,7 @@ if(!empty($_POST)){
 
 	if($_POST['action'] == 'actualizarPaciente'){
 		
-		if(!empty($_POST['idP'])){
+		if(!empty($_POST['idP']) && !empty($_POST['nombres']) && !empty($_POST['apellidos']) && !empty($_POST['edad'])){
 				
 				$idP = $_POST['idP'];
 				$cedula = $_POST['cedula'];

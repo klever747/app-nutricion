@@ -8,22 +8,26 @@ session_start();
 		if($_POST['action'] == 'registroDiagnostico'){
 
 			if(!empty($_SESSION['user']->id_user)){
+				if (!empty($_POST['descripcion'])) {
+					//datos del diagnostico
+					$idPaciente = $_POST['id_paciente'];
+					$descripcion = $_POST['descripcion'];
+					$token = $_SESSION['user']->token;
+					//conexion con la API para registrar el diagnostico
+					$url = CurlController::api()."diagnostico?token=".$token."&select=*&tabla_estado=users";
+						$method = "POST";
+						$fields = array(
+							"id_paciente" => $idPaciente,
+							"descripcion_diagnostico" => $descripcion
+						);
+						$header = array();
+						$diagnostico = CurlController::request($url, $method, $fields, $header)->results;
 
-				//datos del diagnostico
-				$idPaciente = $_POST['id_paciente'];
-				$descripcion = $_POST['descripcion'];
-				$token = $_SESSION['user']->token;
-				//conexion con la API para registrar el diagnostico
-				$url = CurlController::api()."diagnostico?token=".$token."&select=*&tabla_estado=users";
-					$method = "POST";
-					$fields = array(
-						"id_paciente" => $idPaciente,
-						"descripcion_diagnostico" => $descripcion
-					);
-					$header = array();
-					$diagnostico = CurlController::request($url, $method, $fields, $header)->results;
-
-				echo $diagnostico;
+					echo $diagnostico;	
+				}else{
+					echo 'no_hay_datos';
+				}
+				
 				
 			}else{
 				echo 'no_hay_id_nutricionista';
@@ -54,17 +58,17 @@ session_start();
 			}
 		//metodo para actualizar un diagnostico
 		}else if(!empty($_POST['action'] == 'editarDiagnostico')){
-			
-			$diagnostico = $_POST['diagnosticoEdit'];
-			$idDiagnostico = $_POST['idDiagnostico'];
-			$token = $_SESSION['user']->token;
+			if(!empty($_POST['diagnosticoEdit'])){
+				$diagnostico = $_POST['diagnosticoEdit'];
+				$idDiagnostico = $_POST['idDiagnostico'];
+				$token = $_SESSION['user']->token;
 
 				$url = CurlController::api()."diagnostico?id=".$idDiagnostico."&nameId=id_diagnostico&token=".$token."&tabla_estado=diagnostico&select=*";	
 				$method = "PUT";
 				$fields ="descripcion_diagnostico=".$diagnostico;
 				$header = array(
- 					"Content-Type"=> "application/x-www-form-urlencoded"
- 				);
+	 					"Content-Type"=> "application/x-www-form-urlencoded"
+	 				);
 				$diagnostico = CurlController::request($url, $method, $fields, $header)->results;
 
 				
@@ -72,6 +76,10 @@ session_start();
 				//echo json_encode($paciente, JSON_UNESCAPED_UNICODE);
 				print_r($diagnostico);
 				exit;
+			}else{
+				echo 'campos_vacios';
+			}
+			
 		}else{
 			echo 'no_hay_accion';
 

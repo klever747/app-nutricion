@@ -306,8 +306,9 @@ function editarPaciente(){
 		success: function(response){
 			
 				//$('#modals_editar_paciente').modal('hide');
-				cerrar_modal();
+				
 				if(response == "The process was successfull"){	
+					cerrar_modal();
 					Limpiar_Campos();
 					return Swal.fire("Mensaje de Confirmación", "El paciente se actualizo con éxito", "success");
 					

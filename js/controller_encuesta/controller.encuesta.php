@@ -7,62 +7,65 @@ if(!empty($_POST)){
 		if($_POST['action'] == 'registroEncuesta'){
 
 			if(!empty($_SESSION['user']->id_user)){
-				
-				//datos de la encuesta ABCD
-				$id_paciente = $_POST["id_paciente"];
-				$estado_encuesta = $_POST["estado_encuesta"];
-				$peso_paciente = $_POST["peso_paciente"];
-				$talla_paciente = $_POST["talla_paciente"];
-				$pliegue_bicipital = $_POST["pliegue_bicipital"];
-				$pliegue_tricipital = $_POST["pliegue_tricipital"];
-				$pliegue_subescapular = $_POST["pliegue_subescapular"];
-				$pliegue_suprailiaco = $_POST["pliegue_suprailiaco"];
-				$pliegue_supraespinal = $_POST["pliegue_supraespinal"];
-				$pliegue_abdominal = $_POST["pliegue_abdominal"];
-				$pliegue_muslo =$_POST["pliegue_muslo"];
-				$pliegue_pantorrilla = $_POST["pliegue_pantorrilla"];	
-				$circ_cintura =$_POST["circ_cintura"];
-				$circ_cadera = $_POST["circ_cadera"];
-				$circ_pantorrilla = $_POST["circ_pantorrilla"];
-				$circ_brazo_relajado = $_POST["circ_brazo_relajado"];
-				$circ_brazo_contraido = $_POST["circ_brazo_contraido"];
-				$bicondilio_femur =$_POST["bicondilio_femur"];
-				$biepicondileo_humero = $_POST["biepicondileo_humero"];
-				$acido_urico =$_POST["acido_urico"];
-				$bilirubina_directa = $_POST["bilirubina_directa"];
-				$colesterol_total =$_POST["colesterol_total"]; 
-				$colesterol_hdl =$_POST["colesterol_hdl"];
-				$colesterol_ldl = $_POST["colesterol_ldl"];
-				$trigliceridos = $_POST["trigliceridos"];
-				$glucosa_ayunas = $_POST["glucosa_ayunas"];
-				$glucosa_postprandial = $_POST["glucosa_postprandial"]; 
-				$creatinina = $_POST["creatinina"];
-				$tgo_paciente = $_POST["tgo_paciente"];
-				$tgp_paciente = $_POST["tgp_paciente"];
-				$eritocitos = $_POST["eritocitos"];
-				$conteo_plaquetario = $_POST["conteo_plaquetario"];
-				$hemoglobina = $_POST["hemoglobina"];
-				$hematocritos = $_POST["hematocritos"];
-				$leucocitos = $_POST["leucocitos"];
-				$linfocitos = $_POST["linfocitos"];
-				$netrofilos_segmentados = $_POST["netrofilos_segmentados"]; 
-				$neutrofilos_no_segmentados = $_POST["neutrofilos_no_segmentados"];
-				$eosinofilosgm = $_POST["eosinofilosgm"];
-				$basofilos = $_POST["basofilos"];
-				$monocitos = $_POST["monocitos"];
-				$descripcion_paciente =$_POST["descripcion_paciente"];
-				$descripcion_dietetica_paciente = $_POST["descripcion_dietetica_paciente"];
-				$token = $_SESSION["user"]->token;
+				if(!empty($_POST["peso_paciente"]) && !empty($_POST["talla_paciente"]) && !empty($_POST["pliegue_bicipital"]) && !empty($_POST["pliegue_tricipital"]) && !empty($_POST["pliegue_subescapular"]) && !empty($_POST["pliegue_suprailiaco"]) && !empty($_POST["pliegue_supraespinal"]) && !empty($_POST["pliegue_abdominal"]) && !empty($_POST["pliegue_muslo"]) && !empty($_POST["pliegue_pantorrilla"]) && !empty($_POST["circ_cintura"]) && !empty($_POST["circ_cadera"]) && !empty($_POST["circ_brazo_relajado"]) && !empty($_POST["circ_brazo_contraido"]) && !empty($_POST["bicondilio_femur"]) && !empty($_POST["biepicondileo_humero"])){
 
-				$estado = "";
-				if ($estado_encuesta == 1) {
-					$estado = "atendido";
-				}else if($estado_encuesta == 2){
-					$estado = "no_atendido";
-				}
+
+						//datos de la encuesta ABCD
+					$id_paciente = $_POST["id_paciente"];
+					$estado_encuesta = $_POST["estado_encuesta"];
+					$peso_paciente = $_POST["peso_paciente"];
+					$talla_paciente = $_POST["talla_paciente"];
+					$pliegue_bicipital = $_POST["pliegue_bicipital"];
+					$pliegue_tricipital = $_POST["pliegue_tricipital"];
+					$pliegue_subescapular = $_POST["pliegue_subescapular"];
+					$pliegue_suprailiaco = $_POST["pliegue_suprailiaco"];
+					$pliegue_supraespinal = $_POST["pliegue_supraespinal"];
+					$pliegue_abdominal = $_POST["pliegue_abdominal"];
+					$pliegue_muslo =$_POST["pliegue_muslo"];
+					$pliegue_pantorrilla = $_POST["pliegue_pantorrilla"];	
+					$circ_cintura =$_POST["circ_cintura"];
+					$circ_cadera = $_POST["circ_cadera"];
+					$circ_pantorrilla = $_POST["circ_pantorrilla"];
+					$circ_brazo_relajado = $_POST["circ_brazo_relajado"];
+					$circ_brazo_contraido = $_POST["circ_brazo_contraido"];
+					$bicondilio_femur =$_POST["bicondilio_femur"];
+					$biepicondileo_humero = $_POST["biepicondileo_humero"];
+					//datos quimicos
+					$acido_urico =$_POST["acido_urico"];
+					$bilirubina_directa = $_POST["bilirubina_directa"];
+					$colesterol_total =$_POST["colesterol_total"]; 
+					$colesterol_hdl =$_POST["colesterol_hdl"];
+					$colesterol_ldl = $_POST["colesterol_ldl"];
+					$trigliceridos = $_POST["trigliceridos"];
+					$glucosa_ayunas = $_POST["glucosa_ayunas"];
+					$glucosa_postprandial = $_POST["glucosa_postprandial"]; 
+					$creatinina = $_POST["creatinina"];
+					$tgo_paciente = $_POST["tgo_paciente"];
+					$tgp_paciente = $_POST["tgp_paciente"];
+					$eritocitos = $_POST["eritocitos"];
+					$conteo_plaquetario = $_POST["conteo_plaquetario"];
+					$hemoglobina = $_POST["hemoglobina"];
+					$hematocritos = $_POST["hematocritos"];
+					$leucocitos = $_POST["leucocitos"];
+					$linfocitos = $_POST["linfocitos"];
+					$netrofilos_segmentados = $_POST["netrofilos_segmentados"]; 
+					$neutrofilos_no_segmentados = $_POST["neutrofilos_no_segmentados"];
+					$eosinofilosgm = $_POST["eosinofilosgm"];
+					$basofilos = $_POST["basofilos"];
+					$monocitos = $_POST["monocitos"];
+					$descripcion_paciente =$_POST["descripcion_paciente"];
+					$descripcion_dietetica_paciente = $_POST["descripcion_dietetica_paciente"];
+					$token = $_SESSION["user"]->token;
+
+					$estado = "";
+					if ($estado_encuesta == 1) {
+						$estado = "atendido";
+					}else if($estado_encuesta == 2){
+						$estado = "no_atendido";
+					}
 				//conexion con la API para registrar el diagnostico
 
-				$url = CurlController::api()."ingresar_encuesta?token=".$token."&procedure=true&tabla_estado=users&select=*";
+					$url = CurlController::api()."ingresar_encuesta?token=".$token."&procedure=true&tabla_estado=users&select=*";
 					$method = "POST";
 					$fields = array(
  					"id_pacient" => $id_paciente,
@@ -109,13 +112,15 @@ if(!empty($_POST)){
  					"descripcion_paciente" => $descripcion_paciente,
  					"descripcion_dietetica_paciente" => $descripcion_dietetica_paciente
  					);
- 					/*
-					$fields = "id_paciente=".$id_paciente."&estado_encuesta=".$estado."&peso_paciente=".$peso_paciente."&talla_paciente=".$talla_paciente."&pliegue_bicipital=".$pliegue_bicipital."&pliegue_tricipital=".$pliegue_tricipital."&pliegue_subescapular=".$pliegue_subescapular."&pliegue_suprailiaco=".$pliegue_suprailiaco."&pliegue_supraespinal=".$pliegue_supraespinal."&pliegue_abdominal=".$pliegue_abdominal."&pliegue_muslo=".$pliegue_muslo."&pliegue_pantorrilla=".$pliegue_pantorrilla."&circ_cintura=".$circ_cintura."&circ_cadera=".$circ_cadera."&circ_pantorrilla=".$circ_pantorrilla."&circ_brazo_relajado=".$circ_brazo_relajado."&circ_brazo_contraido=".$circ_brazo_contraido."&biepicondileo_femur=".$bicondilio_femur."&biepicondileo_humero=".$biepicondileo_humero."&acido_urico=".$acido_urico."&bilirubina_directa=".$bilirubina_directa."&colesterol_total=".$colesterol_total."&colesterol_hdl=".$colesterol_hdl."&colesterol_ldl=".$colesterol_ldl."&trigliceridos=".$trigliceridos."&glucosa_ayunas=".$glucosa_ayunas."&glucosa_postprandial=".$glucosa_postprandial."&creatinina=".$creatinina."&tgo_paciente=".$tgo_paciente."&tgp_paciente=".$tgp_paciente ."&eritocitos=".$eritocitos."&conteo_plaquetario=".$conteo_plaquetario."&hemoglobina=".$hemoglobina."&hematocritos=".$hematocritos."&leucocitos=".$leucocitos."&linfocitos=".$linfocitos."&netrofilos_segmentados=".$netrofilos_segmentados."&neutrofilos_no_segmentados=".$neutrofilos_no_segmentados."&eosinofilosgm=".$eosinofilosgm."&basofilos=".$basofilos."&monocitos=".$monocitos."&descripcion_paciente=".$descripcion_paciente."&descripcion_dietetica_paciente=".$descripcion_dietetica_paciente;
-					*/
+ 					
 					$header = array();
-				$encuesta = CurlController::request($url, $method, $fields, $header)->results;
+					$encuesta = CurlController::request($url, $method, $fields, $header)->results;
 
-				echo $encuesta;
+					echo $encuesta;
+				}else{
+					echo 'campos_vacios';
+				}
+				
 				
 			}else{
 				echo 'no_hay_id_nutricionista';
