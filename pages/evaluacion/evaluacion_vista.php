@@ -85,7 +85,7 @@ $paciente = CurlController::request($url, $method, $fields, $header)->results;
                     </div>
                     <div class="row">
                         <div class="col-lg-12" style="text-align: center; ">
-                             <label for=""><b>DATOS ANTROPROMETRICOS</b></label>
+                             <label for=""><b>DATOS ANTROPOMETRICOS</b></label>
                         </div>
                         <div class="col-lg-12" style="text-align: center; ">
                              <label for=""><b>SOMATOCARTA</b></label>
