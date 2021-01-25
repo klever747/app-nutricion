@@ -1,5 +1,6 @@
 <?php 
 include  "../../controllers/curl.controller.php";
+include  "../../controllers/template.controller.php";
 session_start();
 
 
@@ -101,10 +102,10 @@ $pacientesMenu = CurlController::request($url, $method, $fields, $header)->resul
 			
 			events: {
                 
-                url: 'http://quipanutri.com/pages/plan_nutricional/eventos.php?id='+id,
+                url: '/pages/plan_nutricional/eventos.php?id='+id,
                 dataType:'json',
                 type:"GET" 
-
+                
             },
             <?php if ($_SESSION["user"]->id_rol == 1): ?>
                 editable:true,
