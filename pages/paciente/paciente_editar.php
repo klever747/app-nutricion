@@ -41,8 +41,7 @@
 
                         
                       <div class="col-lg-6">
-                        <label for="">Genero</label>
-                        <input type="text" class="form-control" id="generoEdit" placeholder="Genero"  disabled><br> 
+                        
                         <label for="">Genero</label>
                         <select class="js-example-basic-multiple genero_pac notItemOne" name="state" style="   width:100%;" id="opcion_sexo_editar">
 
