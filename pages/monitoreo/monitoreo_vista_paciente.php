@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header" style="text-align: center;">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><b>EDITAR MONITOREO DEL PACIENTE</b></h4>
+                <h4 class="modal-title"><b>MONITOREO DEL PACIENTE</b></h4>
             </div>
             <div class="modal-body">
                 <div class="row">
