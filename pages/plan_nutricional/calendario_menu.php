@@ -105,7 +105,7 @@ $pacientesMenu = CurlController::request($url, $method, $fields, $header)->resul
                 url: '/pages/plan_nutricional/eventos.php?id='+id,
                 dataType:'json',
                 type:"GET" 
-                
+
             },
             <?php if ($_SESSION["user"]->id_rol == 1): ?>
                 editable:true,
@@ -398,11 +398,12 @@ function traer_paciente(){
                                 
                             </div>
                         </div>
-                        
+                    <?php if ($_SESSION["user"]->id_rol == 1): ?>
                         <div class="col-lg-4">
                             <label for="">Color del Evento</label>
                             <input type="color"  id="id_color_event" class="form-control" value="#FA2BFC" rows="8"></input ><br>
                         </div>
+                    <?php endif ?>
 
         </div>
           <div class="modal-footer">
