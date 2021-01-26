@@ -149,63 +149,138 @@ $paciente = CurlController::request($url, $method, $fields, $header)->results;
                             <br>
                             <br>
                             <br>
+
                         </div>
                         <div class="col-lg-4">
                             <canvas height="400" id="sn" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="imc_grafico" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="bicipital_grafico" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                                <canvas height="400" id="tricipital_grafico" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="subescapular_grafico" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="peso_graso" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="peso_magro" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="porcentaje_masa_grasa" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="indice_masa_grasa" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="peso_paciente" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-12" style="text-align: center;">
-                             <label for=""><b>DATOS QUIMICOS</b></label>
-                        </div>
 
-                        <div class="col-lg-4">
-                            <canvas height="400" id="acido_urico_paciente" width="400"></canvas>
                         </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="bilirubina_paciente" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="colesterol_paciente" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="hdl_paciente" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="ldl_paciente" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="glucosaAyunas_paciente" width="400"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas height="400" id="glucosaPost_paciente" width="400"></canvas>
-                        </div>
+                        <!--Datos de pliegues -->
+                        <div class="col-md-12">
+                            <div class="box box-primary box-solid collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title"><b>Datos de Pliegues </b></h3>
 
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.box-tools -->
+                                </div>
+                                <!-- /.box-header -->
+                                <!-- Listar Usuario-->
+                                <div class="box-body" style="display: none;">
+                                    <div class="form-group">
+                                        <div class="col-lg-12">
+                                            
+
+
+                                        </div>
+                                        <div class="row">
+                                           
+                                        <div class="col-lg-12">
+                                            <canvas height="200" id="imc_grafico" width="400"></canvas>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <canvas height="200" id="pliegues_grafico" width="400"></canvas>
+                                        </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </div>
+                        
+                        <!--Datos de Composicion corporal -->
+                        <div class="col-md-12">
+                            <div class="box box-primary box-solid collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title"><b>Composicion Corporal</b></h3>
+
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.box-tools -->
+                                </div>
+                                <!-- /.box-header -->
+                                <!-- Listar Usuario-->
+                                <div class="box-body" style="display: none;">
+                                    <div class="form-group">
+                                        <div class="col-lg-12">
+                                            
+
+
+                                        </div>
+                                        <div class="row">
+                                           
+                                            <div class="col-lg-12" style="text-align: center; ">
+                                             <label for=""><b>Composición Corporal</b></label>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <canvas height="200" id="comp_corporal" width="400"></canvas>
+                                        </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </div>
+                        
+                        <br>
+                        <!--Datos Bioquimicos -->
+                        <div class="col-md-12">
+                            <div class="box box-primary box-solid collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title"><b>Datos Bioquimicos</b></h3>
+
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.box-tools -->
+                                </div>
+                                <!-- /.box-header -->
+                                <!-- Listar Usuario-->
+                                <div class="box-body" style="display: none;">
+                                    <div class="form-group">
+                                        <div class="col-lg-12">
+                                            
+
+
+                                        </div>
+                                        <div class="row">
+                                           
+                                           <div class="col-lg-12" style="text-align: center;">
+                                                 <label for=""><b>DATOS QUIMICOS</b></label>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <canvas height="200" id="datos_quim_ABT" width="400"></canvas>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <canvas height="200" id="datos_colesterol" width="400"></canvas>
+                                            </div> 
+                                            <div class="col-lg-12">
+                                                <canvas height="200" id="datos_glucosa" width="400"></canvas>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </div>
+                        
                     </div>
 
                 </div>
@@ -214,6 +289,7 @@ $paciente = CurlController::request($url, $method, $fields, $header)->results;
             <!-- /.box-body -->
         </div>
     </div>
+
 </form>
 
 <script>

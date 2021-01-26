@@ -93,7 +93,7 @@ $path = TemplateController::path();
 <body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
 
      <!-- PRE LOADER -->
-     
+     <!--
      <section class="preloader">
           <div class="spinner">
 
@@ -103,7 +103,7 @@ $path = TemplateController::path();
 
      </section>
 
-
+-->
      <!-- MENU -->
      <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
 

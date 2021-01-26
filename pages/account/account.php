@@ -43,6 +43,7 @@ $routesArray = explode("/", $_SERVER['REQUEST_URI']);
 	
 
 	if($routesArray[1] == "nutricion"){
+
 		if(!empty($urlParams2[1])){
 			
 			if($urlParams2[0] == "account" && $urlParams2[1]== "facebook"){
