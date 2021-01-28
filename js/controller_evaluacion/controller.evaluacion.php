@@ -14,7 +14,7 @@ if(!empty($_POST)){
 				
 			
 			
-			$url = CurlController::api()."relations?rel=somatotipo,antropometrico_paciente,encuesta_abcd&type=somatotipo,antropometrico_paciente,encuesta_abcd&orderBy=antropometrico_paciente.id_antropometrico&orderMode=DESC&linkTo=id_paciente&equalTo=".$id."&tabla_estado=encuesta_abcd&select=*&fecha_ini=".$fechainicio."&fecha_fin=".$fechafin;		
+			$url = CurlController::api()."relations?rel=somatotipo,antropometrico_paciente,encuesta_abcd&type=somatotipo,antropometrico_paciente,encuesta_abcd&orderBy=antropometrico_paciente.date_create&orderMode=ASC&linkTo=id_paciente&equalTo=".$id."&tabla_estado=encuesta_abcd&select=*&fecha_ini=".$fechainicio."&fecha_fin=".$fechafin;		
 			$method = "GET";
 			$fields = array();
 			$header = array();
@@ -31,7 +31,7 @@ if(!empty($_POST)){
 			$id = $_POST['paciente'];
 			$fechainicio = $_POST['fechainicio'];
             $fechafin = $_POST['fechafin'];
-			$url = CurlController::api()."relations?rel=bioquimico_paciente,encuesta_abcd&type=bioquimico_paciente,encuesta_abcd&orderBy=bioquimico_paciente.id_bioquimico&orderMode=DESC&linkTo=id_paciente&equalTo=".$id."&tabla_estado=encuesta_abcd&select=*&fecha_ini=".$fechainicio."&fecha_fin=".$fechafin;	
+			$url = CurlController::api()."relations?rel=bioquimico_paciente,encuesta_abcd&type=bioquimico_paciente,encuesta_abcd&orderBy=bioquimico_paciente.date_create&orderMode=ASC&linkTo=id_paciente&equalTo=".$id."&tabla_estado=encuesta_abcd&select=*&fecha_ini=".$fechainicio."&fecha_fin=".$fechafin;	
 				
 			$method = "GET";
 			$fields = array();

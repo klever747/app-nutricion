@@ -51,7 +51,7 @@
                     <div class="modal-header" style="text-align: center;">
                         <div class="col-lg-12">
                             <label for="">Titulo del Evento</label>
-                            <input type="text"  id="tittle_carg" class="form-control" rows="8"></input ><br>
+                            <input type="text"  id="tittle_carg" class="form-control" rows="8" onkeypress="return soloLetras(event)"></input ><br>
                         </div>
                         
                         <div class="col-lg-12">

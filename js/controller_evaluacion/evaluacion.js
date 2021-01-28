@@ -1,7 +1,11 @@
 
 function CrearGrafico(titulo, cantidad, colores, tipo, encabezado, id) {
     var ctx = document.getElementById(id);
-    var myChart = new Chart(ctx, {
+    if (window.myChart) {
+        window.myChart.clear();
+        window.myChart.destroy();
+    }
+     window.myChart = new Chart(ctx, {
         type: tipo,
         data: {
             labels: titulo,
@@ -39,10 +43,42 @@ function CrearGrafico(titulo, cantidad, colores, tipo, encabezado, id) {
     });
 
 }
-
-function CrearGraficoPliegues(titulo, cantidad,cantPlieBicip,cantPlieTricp,cantPlieSub,cantPlieSuprailiaco,cantPlieAbdomen, colores, tipo, id) {
+//funcion para limpiar campos imc
+function limpiarIMC(id) {
     var ctx = document.getElementById(id);
     var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: " ",
+            datasets: [{
+                    label: " ",
+                    data: " ",
+                    backgroundColor:" rgba(255,255,255,255)" ,
+                    borderColor:"rgba(255,255,255,255)" ,
+                    borderWidth: 1,
+                    fill:false
+                }]
+        },
+        options: {
+           
+            scales: {
+                yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+            }
+        }
+    });
+    myChart.update();
+}
+function CrearGraficoPliegues(titulo, cantidad,cantPlieBicip,cantPlieTricp,cantPlieSub,cantPlieSuprailiaco,cantPlieAbdomen, colores, tipo, id) {
+    var ctx = document.getElementById(id);
+    if (window.chartPliegues) {
+        window.chartPliegues.clear();
+        window.chartPliegues.destroy();
+    }
+     window.chartPliegues = new Chart(ctx, {
         type: tipo,
         data: {
             labels: titulo,
@@ -110,7 +146,11 @@ function CrearGraficoPliegues(titulo, cantidad,cantPlieBicip,cantPlieTricp,cantP
 //funcion para cargar la composicion corporal del paciente
 function CrearGraficoComposicion(titulo,cantPesoGraso,cantPesoMagro,pesoPac, colores, tipo, id) {
     var ctx = document.getElementById(id);
-    var myChart = new Chart(ctx, {
+    if (window.chartComposicion) {
+        window.chartComposicion.clear();
+        window.chartComposicion.destroy();
+    }
+     window.chartComposicion = new Chart(ctx, {
         type: tipo,
         data: {
             labels: titulo,
@@ -164,7 +204,11 @@ function CrearGraficoComposicion(titulo,cantPesoGraso,cantPesoMagro,pesoPac, col
 //funcion para cargar graficos de trigliceridos,bilirubina,acido
 function CrearGraficoBioq(titulo,cantAcidoUri,cantBilirubina,cantTrigliceridos, colores, tipo, id) {
     var ctx = document.getElementById(id);
-    var myChart = new Chart(ctx, {
+    if (window.chartBioquimico) {
+        window.chartBioquimico.clear();
+        window.chartBioquimico.destroy();
+    }
+     window.chartBioquimico = new Chart(ctx, {
         type: tipo,
         data: {
             labels: titulo,
@@ -458,7 +502,7 @@ function imc() {
                     colores.push(colorRGB());
                 }
                 
-
+                //limpiarIMC('imc_grafico');
                 CrearGrafico(titulo, cantImc, colores, 'bar','IMC(kg/m2)', 'imc_grafico');
 
                 
