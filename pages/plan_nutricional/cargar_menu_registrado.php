@@ -58,9 +58,15 @@
                             <label for="">Descripcion del Evento</label>
                             <textarea   id="descrip_carg" class="form-control" rows="8"></textarea><br>
                         </div>
-                        <div class="col-lg-4">
-                            <label for="">Color del Evento</label>
-                            <input type="color"  id="color_carg" class="form-control" value="#FA2BFC" rows="8"></input ><br>
+                        <div class="col-lg-8">
+                            <label for="color">Seleccione un color para el evento</label>
+                            <select name="color" class="form-control" id="color_carg">
+                                <option value="">Seleccionar</option>
+                                <option style="color: #0071c5;" value="#0071c5">&#9724; Desayuno</option>
+                                <option style="color: #40E0D0;" value="#40E0D0">&#9724; Almuerzo</option>
+                                <option style="color: #008000;" value="#008000">&#9724; Cena</option>
+                            </select>
+                            <br>
                         </div>
                     </div>
                 </div>

@@ -46,7 +46,7 @@ session_start();
                 </div>
                 
             </div>
-            <table id="dataTableD">
+            <table id="dataTableD" class="display responsive nowrap" style="width:100%">
                 
                 <thead>
                     <tr>
@@ -60,7 +60,8 @@ session_start();
                         <th>Acci&oacute;n</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="datPaicente">
+                
                 <?php if($pacientes != 'Not Found'){ ?>
                     <?php foreach($pacientes as $key => $value):?>  
                     <tr>     
@@ -88,6 +89,7 @@ session_start();
                     <tr></tr>
 
                 <?php } ?>
+               
                 </tbody>
             </table>
         </div>

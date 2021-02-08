@@ -316,7 +316,12 @@ function traer_paciente(){
                         </div>
                         <div class="col-lg-4">
                             <label for="">Color del Evento</label>
-                            <input type="color"  id="id_color_event" class="form-control" value="#FA2BFC" rows="8"></input ><br>
+                            <select name="color" class="form-control" id="id_color_event">
+                                <option value="">Seleccionar</option>
+                                <option style="color: #0071c5;" value="#0071c5">&#9724; Desayuno</option>
+                                <option style="color: #40E0D0;" value="#40E0D0">&#9724; Almuerzo</option>
+                                <option style="color: #008000;" value="#008000">&#9724; Cena</option>
+                            </select><br>
                         </div>
 
         </div>
@@ -401,7 +406,12 @@ function traer_paciente(){
                     <?php if ($_SESSION["user"]->id_rol == 1): ?>
                         <div class="col-lg-4">
                             <label for="">Color del Evento</label>
-                            <input type="color"  id="id_color_event" class="form-control" value="#FA2BFC" rows="8"></input ><br>
+                            <select name="color" class="form-control" id="id_color_event">
+                                <option value="">Seleccionar</option>
+                                <option style="color: #0071c5;" value="#0071c5">&#9724; Desayuno</option>
+                                <option style="color: #40E0D0;" value="#40E0D0">&#9724; Almuerzo</option>
+                                <option style="color: #008000;" value="#008000">&#9724; Cena</option>
+                            </select><br>
                         </div>
                     <?php endif ?>
 
@@ -470,7 +480,13 @@ function traer_paciente(){
                         </div>
                         <div class="col-lg-4">
                             <label for="">Color del Evento</label>
-                            <input type="color"  id="id_color_event" class="form-control" value="#FA2BFC" rows="8"></input ><br>
+                            <select name="color" class="form-control" id="id_color_event">
+                                <option value="">Seleccionar</option>
+                                <option style="color: #0071c5;" value="#0071c5">&#9724; Desayuno</option>
+                                <option style="color: #40E0D0;" value="#40E0D0">&#9724; Almuerzo</option>
+                                <option style="color: #008000;" value="#008000">&#9724; Cena</option>
+                            </select>
+                            <br>
                         </div>
 
         </div>
@@ -524,10 +540,13 @@ function traer_paciente(){
         });
     //funcion para recolectar datos de los eventos
     function recolectar_datos(){
+        var descripcion = descripM.getData();
+        var contenido = descripcion.replace(/&nbsp;/gi, ' ');
+        contenido = contenido.replace(/&ntilde;/gi, "ñ");
         nuevo_evento ={
                 id:$('#idEvent').val(),
                 title:$('#id_title_event').val(),
-                descripcion:descripM.getData(),
+                descripcion:contenido,
                 color:$('#id_color_event').val(),
                 text_color:"#000000",
                 hora_ini:$('#horaEventEdit').val(),

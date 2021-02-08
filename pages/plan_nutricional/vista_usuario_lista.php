@@ -47,7 +47,7 @@ $paciente = CurlController::request($url, $method, $fields, $header)->results;
 
                 
             </div>
-            <table id="dataTableD">
+            <table id="dataTableD" class="display responsive nowrap" style="width:100%">
                 
                 <thead>
                     <tr>

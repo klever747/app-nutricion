@@ -67,20 +67,18 @@ if(!empty($_POST)){
 
 				
 
-			$url = CurlController::api()."relations?rel=users,nutricionista,paciente&type=user,nutricionista,paciente&linkTo=id_paciente&equalTo=".$id_paciente."&orderBy=id_paciente&orderMode=DESC&tabla_estado=nutricionista&select=display_name,id_paciente,paciente.id_nutricionista";
-			
+				$url = CurlController::api()."relations?rel=users,nutricionista,paciente&type=user,nutricionista,paciente&linkTo=id_paciente&equalTo=".$id_paciente."&orderBy=id_paciente&orderMode=DESC&tabla_estado=nutricionista&select=display_name,id_paciente,paciente.id_nutricionista";
+				
 
-			$method = "GET";
-			$fields = array();
-			$header = array();
-			$paciente = CurlController::request($url, $method, $fields, $header)->results[0];
+				$method = "GET";
+				$fields = array();
+				$header = array();
+				$paciente = CurlController::request($url, $method, $fields, $header)->results[0];
 
-				
-				
-				echo json_encode($paciente, JSON_UNESCAPED_UNICODE);
-				
-				
-				
+					
+					
+					echo json_encode($paciente, JSON_UNESCAPED_UNICODE);
+					
 			}else{
 				echo 'error no id';
 				exit;

@@ -431,14 +431,14 @@ function somatotipocarta(){
             var datos  = [];
             var objeto = {};
             var data = JSON.parse(resp);
-
-            var x = (data[0].ectomorfia - data[0].endomorfia).toFixed(4);
-            var y = (2*(parseFloat(data[0].mesomorfia)) - (parseFloat(data[0].ectomorfia) + parseFloat(data[0].endomorfia))).toFixed(4);
+            var cant = data.length -1;
+            var x = (data[cant].ectomorfia - data[cant].endomorfia).toFixed(4);
+            var y = (2*(parseFloat(data[cant].mesomorfia)) - (parseFloat(data[cant].ectomorfia) + parseFloat(data[cant].endomorfia))).toFixed(4);
            //for (var i = 0; i < data.length; i++) {
                
-               $("#endomorfia").html(data[0].endomorfia);   
-               $("#mesomorfia").html(data[0].mesomorfia); 
-               $("#ectomorfia").html(data[0].ectomorfia);
+               $("#endomorfia").html(data[cant].endomorfia);   
+               $("#mesomorfia").html(data[cant].mesomorfia); 
+               $("#ectomorfia").html(data[cant].ectomorfia);
                $("#x").html(x); 
                $("#y").html(y);
                

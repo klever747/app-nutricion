@@ -72,7 +72,7 @@ $pacientesList = CurlController::request($url, $method, $fields, $header)->resul
                             <th>Acci&oacute;n</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="datDiagnostico">
                     <?php if($pacientes != 'Not Found'){ ?>
                          <?php foreach($pacientes as $key => $value):?> 
                         <tr>

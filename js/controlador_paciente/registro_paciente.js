@@ -1,7 +1,7 @@
 
 //metodo para dibujar en el modal
 $(document).ready(function() {
-
+	//consultar();
  //--------------------- SELECCIONAR FOTO PACIENTE ---------------------
     $("#foto").on("change", function () {
         var uploadFoto = document.getElementById("foto").value;
@@ -98,6 +98,7 @@ $(document).ready(function() {
 	$('.actualizar')	.click(function(e) {
 		e.preventDefault();
 		var pacienteId = $(this).attr('idPaciente');
+
 		var action = 'infoPaciente';
 
 		$.ajax({
@@ -107,7 +108,7 @@ $(document).ready(function() {
 			data: {action: action, pacienteId:pacienteId},
 
 		success: function(response){
-			
+			console.log(response);
 		 
 		  var info = JSON.parse(response);
           $('#txtcedula_editar').val(info.ci_user);
@@ -182,7 +183,7 @@ $(document).ready(function() {
 		//alert(pacienteId);
 	});
 
-
+	
 
 });
 
@@ -198,10 +199,126 @@ function AbrirModalsEliminarPaciente(){
     $('#modals_eliminar_paciente').modal('show');
   
 }
+//metodo para eliminar un paciente
+function eliminar(pacienteId){
+		var pacienteId = pacienteId;
+		var action = 'infoPaciente';
+
+		$.ajax({
+			url: '../../js/controlador_paciente/controller.paciente.php',
+			type: 'POST',
+			async: true,
+			data: {action: action, pacienteId:pacienteId},
+
+		success: function(response){
+			
+		  var info = JSON.parse(response);
+
+		  	
+		  
+		  $('#idPaciente').val(info.id_user);
+          $('#txtcedula_eliminar').val(info.ci_user);
+          $('#txtnombres_eliminar').val(info.nombre_usuario);
+          $('#txtapellidop_eliminar').val(info.apellido_user);
+          $('#txtmovil_eliminar').val(info.telefono_user);
+          $('#txtdireccion_eliminar').val(info.direccion_user);
+          $('#generoEliminar').val(info.genero);
+          //$('#opcion_sexo_editar').val(info.genero);
+          $('#txtedadEliminar').val(info.edad_user);
+          $('#ciudad_eliminar').val(info.ciudad_user);
+         // $('#imagen_editar').val(info.image_paciente);
+          $('#txtemail_eliminar').val(info.email_user);
+          $('#txtusuario_eliminar').val(info.nombre_user);
+		
+		},
+		error:function(error) {
+			console.log(error);
+		}
+		});
+		
+		AbrirModalsEliminarPaciente();
+		//alert(pacienteId);
+};
+//metodo para traer los datos del usuario a actualizar 
+function actualizar(pacienteId){
+
+		var pacienteId = pacienteId;
+		var action = 'infoPaciente';
+
+		$.ajax({
+			url: '../../js/controlador_paciente/controller.paciente.php',
+			type: 'POST',
+			async: true,
+			data: {action: action, pacienteId:pacienteId},
+
+		success: function(response){
+			console.log(response);
+		 
+		  var info = JSON.parse(response);
+          $('#txtcedula_editar').val(info.ci_user);
+          $('#txtnombres_editar').val(info.nombre_usuario);
+          $('#txtapellidop_editar').val(info.apellido_user);
+          $('#txtmovil_editar').val(info.telefono_user);
+          $('#txtdireccion_editar').val(info.direccion_user);
+          $('#txtedadEditar').val(info.edad_user);
+          $('#idP').val(info.id_user);
+          $("#opcion_sexo_editar").append("<option  value="+info.id_genero+" selected='true'>"+info.genero+"</option>");
+          $("#opcion_sexo_editar").append("<option  value='1'>Masculino</option>");
+          $("#opcion_sexo_editar").append("<option  value='2'>Femenino</option>");
+          $("#opcion_sexo_editar").append("<option  value='3'>Otro</option>");
+
+          $('#generoEdit').val(info.genero);
+         
+          //$('#Profesion_editar').val(info.profesion_paciente);
+          $('#ciudad_editar').val(info.ciudad_user);
+         $('#txtusuario_editar').val(info.nombre_user);
+
+          
+          		
+		},
+		error:function(error) {
+			console.log(error);
+		}
+		});
+		
+		AbrirModalsEditarPaciente();
+		//alert(pacienteId);
+};
+//funcion para cargar automaticamente los datos en el datatable
+function consultar(){
+	$.ajax({
+		data:{"action":"consultar"},
+		url: '../../js/controlador_paciente/controller.paciente.php',
+		type: 'POST',
+		dataType:'json'
+	}).done(function(response){
+		var html = "";
+		$.each(response,function(index, data) {
+			html +="<tr>";
+			html +="<td>"+data.ci_user+"</td>";
+			html +="<td>"+data.nombre_usuario+"</td>";
+			html +="<td>"+data.apellido_user+"</td>";
+			html +="<td>"+data.email_user+"</td>";
+			html +="<td>"+data.ciudad_user+"</td>";
+			html +="<td>"+data.telefono_user+"</td>";
+			html +="<td>";
+			html +="<div>";
+			html +="<div>";
+			html +="<button class='btn_modificar' onclick='actualizar("+data.id_user+");'><i class='fa fa-edit'></i></button>";
+			html +="<button class='btn_cancel' onclick='eliminar("+data.id_user+");'><i class='fa fa-trash'></i></button>";
+			html +="</div>";
+			html +="</div>";
+			html +="</td>";
+
+		});
+		document.getElementById("datPaicente").innerHTML = html;
+	}).fail(function(response){
+		console.log(response);
+	});
+}
 //funcion para registrar un paciente
 function registrarPaciente()
 {
-	
 
 	var cedula = $("#txtcedula").val();
 	var nombres = $("#txtnombres").val();
@@ -242,13 +359,17 @@ function registrarPaciente()
 		data:formData
         ,
 		success: function(response){
-			//console.log(response);
+			console.log(response);
 			
-			if(response == "The process was successful"){	
+			if(response == "200"){	
 				Limpiar_Campos();
+				consultar();
 				CerrarModalsRegistro();
-				return Swal.fire("Mensaje de Confirmación", "El paciente se registro con éxito", "success");
+				return Swal.fire("Mensaje de Confirmación", "El paciente se registro con éxito, Envio un correo al paciente", "success");
 				
+			}else if(response == "404"){
+				CerrarModalsRegistro();
+				return Swal.fire("Mensaje de Advertencia", "Paciente no registrado, algo salio mal", "warning");
 			}else if(response == "error_campos_vacios"){
 				return Swal.fire("Mensaje de Advertencia", "Llene los campos vacios", "warning");
 			}else if(response == "error_id"){
@@ -264,6 +385,7 @@ function registrarPaciente()
 	});
 
 }
+
 //funcion para editar un paciente 
 function editarPaciente(){
 
@@ -308,6 +430,7 @@ function editarPaciente(){
 				//$('#modals_editar_paciente').modal('hide');
 				
 				if(response == "The process was successfull"){	
+					consultar();
 					cerrar_modal();
 					Limpiar_Campos();
 					return Swal.fire("Mensaje de Confirmación", "El paciente se actualizo con éxito", "success");
@@ -344,7 +467,7 @@ function eliminarPaciente(){
 			
 				$('#modals_eliminar_paciente').modal('hide');
 				if(response == "The process was successfull"){	
-				
+					consultar();
 					return Swal.fire("Mensaje de Confirmación", "El paciente se elimino con éxito", "success");
 					
 				}else{

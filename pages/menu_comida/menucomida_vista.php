@@ -63,7 +63,7 @@ if($menuPaciente != 'Not Found'){
                 </div>
                 
             </div>
-            <table id="dataTableD" >
+            <table id="dataTableD" class="display responsive nowrap" style="width:100%">
                 <thead>
                     
                     <tr>
@@ -76,7 +76,7 @@ if($menuPaciente != 'Not Found'){
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody id="datMenu">
                 <?php if($menuPaciente != 'Not Found'){ ?>
                     <?php foreach($menuPaciente as $key => $value):?>  
 

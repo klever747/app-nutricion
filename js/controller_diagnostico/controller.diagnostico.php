@@ -4,14 +4,38 @@ session_start();
 
 
 	if(!empty($_POST)){
+		/*=============================================
+		Metodo para Listar todos los pacientes
+		=============================================*/
+		if($_POST['action'] =='consultar'){
+			
+			if(!empty($_SESSION['user']->id_user)){
+				 //traer los datos para listar todas los diagnosticos de un nutricionsita 
+                    
+                 $url = CurlController::api()."relations?rel=users,nutricionista,paciente,diagnostico&type=user,nutricionista,paciente,diagnostico&linkTo=id_user&equalTo=".$_SESSION["user"]->id_user."&orderBy=paciente.id_paciente&orderMode=DESC&tabla_estado=nutricionista.estado=1%20and%20users&select=id_diagnostico,ci_user,nombre_user,apellido_user,diagnostico.date_create";
+                    
+
+                $method = "GET";
+                $fields = array();
+                $header = array();
+
+                $pacientes = CurlController::request($url, $method, $fields, $header)->results;
+				 
+			    echo json_encode($pacientes, JSON_UNESCAPED_UNICODE);
+			    exit;
+
+			}else{
+				echo 'error_id';
+			}
+		}
 		//metodo para registrar el diagnostico del paciente
 		if($_POST['action'] == 'registroDiagnostico'){
 
 			if(!empty($_SESSION['user']->id_user)){
-				if (!empty($_POST['descripcion'])) {
+				if (!empty($_POST['contenido'])) {
 					//datos del diagnostico
 					$idPaciente = $_POST['id_paciente'];
-					$descripcion = $_POST['descripcion'];
+					$descripcion = $_POST['contenido'];
 					$token = $_SESSION['user']->token;
 					//conexion con la API para registrar el diagnostico
 					$url = CurlController::api()."diagnostico?token=".$token."&select=*&tabla_estado=users";
@@ -58,8 +82,8 @@ session_start();
 			}
 		//metodo para actualizar un diagnostico
 		}else if(!empty($_POST['action'] == 'editarDiagnostico')){
-			if(!empty($_POST['diagnosticoEdit'])){
-				$diagnostico = $_POST['diagnosticoEdit'];
+			if(!empty($_POST['contenido'])){
+				$diagnostico = $_POST['contenido'];
 				$idDiagnostico = $_POST['idDiagnostico'];
 				$token = $_SESSION['user']->token;
 

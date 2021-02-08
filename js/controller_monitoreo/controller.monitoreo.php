@@ -6,17 +6,22 @@ if (!empty($_POST)) {
 
 	//metodo para registrar el monitoreo del paciente
 		if($_POST['action'] == 'registroMonitoreo'){
-
-			if(!empty($_SESSION['user']->id_user) && !empty($_POST['descripcion'])){
-
+				
+			if(!empty($_SESSION['user']->id_user) && !empty($_POST['contenido'])){
+					
 				//datos del monitoreo
+
 				$idPaciente = $_POST['id_paciente'];
-				$descripcion = $_POST['descripcion'];
+				$descripcion = $_POST['contenido'];
 				$token = $_SESSION['user']->token;
 				//conexion con la API para registrar el diagnostico
 				$url = CurlController::api()."monitoreo?token=".$token."&select=*&tabla_estado=users";
 				$method = "POST";
-				$fields = "descripcion_monitoreo=".$descripcion."&id_paciente=".$idPaciente;
+				$fields = array(
+					"id_paciente"=> $idPaciente,
+					"descripcion_monitoreo" => $descripcion
+				);
+
 				$header = array();
 				$diagnostico = CurlController::request($url, $method, $fields, $header)->results;
 				
@@ -56,7 +61,7 @@ if (!empty($_POST)) {
 
 				 $id_monitoreo = $_POST['id_monitoreo']; 
 				 
-				 $descripcion_monitoreo = $_POST['descripcion_monitoreo'];
+				 $descripcion_monitoreo = $_POST['contenido'];
 
 				 $token = $_SESSION["user"]->token;
 				$url = CurlController::api()."monitoreo?id=".$id_monitoreo."&nameId=id_monitoreo&token=".$token."&tabla_estado=monitoreo&select=*";	

@@ -2,7 +2,7 @@
 //metodo para dibujar en el modal
 var nuevo_evento;
 $(document).ready(function() {
-
+	//consultarMenu();
  //--------------------- SELECCIONAR FOTO PACIENTE ---------------------
     $("#fotoEdit").on("change", function () {
         var uploadFoto = document.getElementById("fotoEdit").value;
@@ -45,7 +45,7 @@ $(document).ready(function() {
         $("#imgEdit").remove();
 
         if ($("#foto_actual") && $("#foto_remove")) {
-            $("#foto_remove").val('img_paciente.png');
+            $("#foto_remove").val('img_menu.jpg');
           // $(".fotoDatos").append("<input type='hidden' name='foto_removeE' value='img_paciente.png'>");
         }
 
@@ -174,9 +174,106 @@ $('.eliminar_menu')	.click(function(e) {
 		
 		abrir_modals_eliminar()
 		//alert(pacienteId);
-	});	
+});	
 
 });
+
+
+//funcion para traer los datos del menu a actualizar
+function actualizar_menu(id_menu){
+		var id_menu= id_menu;
+		var action = 'infoMenu';
+
+		$.ajax({
+			url: '../../js/controller_menu_comida/controller.menuComida.php',
+			type: 'POST',
+			async: true,
+			data: {action: action, id_menu:id_menu},
+
+		success: function(response){
+			
+		  var info = JSON.parse(response);
+		  var foto = '';
+		  $('#id_menu').val(info.id_menu_comida);
+          $('#txtnombre_menu_editar').val(info.nombre_menu);
+          $('#txtcalorias_editar').val(info.calorias_total);
+          $('#txtcarbohidrato_editar').val(info.carbohidratos_total);
+          $('#txtgrasa_editar').val(info.grasa_total);
+          $('#txtproteina_editar').val(info.proteina_total);
+          //$('#opcion_sexo_editar').val(info.genero);
+          descripcion.setData(info.descripcion);
+          preparacion.setData(info.preparacion);
+          ingredientes.setData(info.ingredientes);
+          $('#txtnombre_preparacion_editar').val(info.nombre_preparacion);
+          $('#txtdescripcioneditar').val(info.descripcion);
+          
+          $('#foto_actual').val(info.imagen_menu);
+          $('#foto_remove').val(info.imagen_menu);
+          
+           //cargar los datos de la foto en el formulario
+          var foto = '';
+          var classRemove = 'notBlockEdit';
+          var url = '../../resources/img/';
+          if(info.imagen_menu != 'img_paciente.png'){
+          	classRemove = '';
+          	url = "../../resources/img/"+info.imagen_menu;
+ 	
+                $("#imgEdit").remove();
+                $(".delPhotoEdit").removeClass('notBlockEdit');
+                
+
+                $(".prevPhotoEdit").append("<img id='imgEdit' src=" + url + ">");
+                $(".upimgEdit labelEdit").remove();
+          	
+          }
+         
+			
+		},
+		error:function(error) {
+			console.log(error);
+		}
+		});
+		
+		abrir_modals_editar();
+		//alert(pacienteId);
+};	
+//funcion para cargar automaticamente los datos en el datatable
+function consultarMenu(){
+	$.ajax({
+		data:{"action":"consultar"},
+		url: '../../js/controller_menu_comida/controller.menuComida.php',
+		type: 'POST',
+		dataType:'json'
+	}).done(function(response){
+		var html = "";
+		$.each(response,function(index, data) {
+			html +="<tr>";
+			html +="<td>"+data.id_menu_comida+"</td>";
+			html +="<td>"+data.nombre_menu+"</td>";
+			html +="<td>"+data.nombre_preparacion+"</td>";
+			html +="<td>";
+			html +="<div class='col-lg-6 foto'>";
+			html +="<div class='prevPhoto'>";
+			html +="<img src = '../../resources/img/"+data.imagen_menu+"' alt = 'menu'>";
+			html +="</div>";
+			html +="</div>";
+			html +="</td>";
+			html +="<td>";
+			html +="<div>";
+			html +="<div>";
+			html +="<button class='btn_modificar' onclick='actualizar_menu("+data.id_menu_comida+");'><i class='fa fa-edit'></i></button>";
+			//html +="<button class='btn_cancel' onclick='eliminar_menu("+data.id_menu_comida+");'></i></button>"
+			html +="</div>";
+			html +="</div>";
+			html +="</td>";
+
+		});
+		document.getElementById("datMenu").innerHTML = html;
+	}).fail(function(response){
+		console.log(response);
+	});
+}
+
 //funcion para registrar un menu de comida
 function registrar_menu(){
 
@@ -189,9 +286,19 @@ function registrar_menu(){
 	var carbohidratos = $("#carbohidrato_menu").val();
 	var grasaTotal = $("#grasa_menu").val();
 	var proteina = $("#proteina_menu").val();
-	var descripcion = descrip.getData();
-	var ingredientes = ingred.getData();
-	var preparacion = prepara.getData();
+
+	var descripcion0 = descrip.getData();
+	var contenido = descripcion0.replace(/&nbsp;/gi, ' ');
+  	contenido = contenido.replace(/&ntilde;/gi, "ñ");
+
+	var ingredientes0 = ingred.getData();
+	var ingredientes = ingredientes0.replace(/&nbsp;/gi, ' ');
+  	ingredientes = ingredientes.replace(/&ntilde;/gi, "ñ");
+
+	var preparacion0 = prepara.getData();
+	var preparacion = preparacion0.replace(/&nbsp;/gi, ' ');
+	preparacion = preparacion.replace(/&ntilde;/gi, "ñ");
+
 	var fechaInicio = $("#txtfecha_inicioEvent").val();
 	var fechaFin = $("#txtfecha_finEvent").val();
 	var hora = $("#horaEvent").val();
@@ -216,7 +323,7 @@ function registrar_menu(){
      formData.append('grasaTotal',grasaTotal);
      formData.append('proteina',proteina);
      formData.append('preparacion',preparacion);
-     formData.append('descripcion',descripcion);
+     formData.append('contenido',contenido);
      formData.append('ingredientes',ingredientes);
      formData.append('idNutricionista',idNutricionista);
      formData.append('fechaInicio',fechaInicio);
@@ -238,33 +345,36 @@ function registrar_menu(){
 		success: function(response){
 
 			if(opcionEvaluar == "soloMenu"){
-				$("#modals_registro_menu").modal('toggle');
-			
+				
+			console.log(response);
 			
 				//$('#modals_editar_paciente').modal('hide');
-				if(response == 'The process was successful'){	
-					Limpiar_Campos()
-					//return Swal.fire("Mensaje de Confirmación", "El menu registrado con éxito", "success");
+				if(response == 200){	
+					Limpiar_Campos();
+					consultarMenu();
+					$("#modals_registro_menu").modal('toggle');
+					Swal.fire("Mensaje de Confirmación", "El menu registrado con éxito", "success");
 					//$('#calendario').fullCalendar('refetchEvents');
-				}else if (response == 'error_no_accion'){
+				}else if (response == 404){
 
-					return Swal.fire("Mensaje de Advertencia", "Nutricionista no actualizado", "warning");
+					return Swal.fire("Mensaje de Advertencia", "Menu no registrado", "warning");
 				
 				}	
 			}else{
-				recolectar_datos(); 
-	            $('#calendario').fullCalendar('renderEvent',nuevo_evento);
-	            $("#modals_registro_menu").modal('toggle');
-				
 				
 					//$('#modals_editar_paciente').modal('hide');
-				if(response == 'The process was successful'){	
-					Limpiar_Campos()
-						//return Swal.fire("Mensaje de Confirmación", "El menu registrado con éxito", "success");
+				if(response == 200){	
+					recolectar_datos(); 
+		            $('#calendario').fullCalendar('renderEvent',nuevo_evento);
+		            $("#modals_registro_menu").modal('toggle');
+					Limpiar_Campos();
+					Swal.fire("Mensaje de Confirmación", "El menu registrado con éxito", "success");
 					$('#calendario').fullCalendar('refetchEvents');
+				}else if(response==404){
+					return Swal.fire("Mensaje de Advertencia", "Llene los campos vacios", "warning");
 				}else if (response == 'error_no_accion'){
 
-					return Swal.fire("Mensaje de Advertencia", "Nutricionista no actualizado", "warning");
+					return Swal.fire("Mensaje de Advertencia", "Menu no registrado", "warning");
 					
 				}
 			}
@@ -291,9 +401,19 @@ function registrar_menu2(){
 	var carbohidratos = $("#carbohidrato_menu").val();
 	var grasaTotal = $("#grasa_menu").val();
 	var proteina = $("#proteina_menu").val();
+
 	var descripcion = descrip.getData();
-	var ingredientes = ingred.getData();
+	var contenido = descripcion.replace(/&nbsp;/gi, ' ');
+  	contenido = contenido.replace(/&ntilde;/gi, "ñ");
+
+	var ingredientes1 = ingred.getData();
+	var ingredientes = ingredientes1.replace(/&nbsp;/gi, ' ');
+  	ingredientes = ingredientes.replace(/&ntilde;/gi, "ñ");
+
 	var preparacion = prepara.getData();
+	var preparacion = preparacion.replace(/&nbsp;/gi, ' ');
+	preparacion = preparacion.replace(/&ntilde;/gi, "ñ");
+
 	var fechaInicio = $("#txtfecha_inicioEvent").val();
 	var fechaFin = $("#txtfecha_finEvent").val();
 	var hora = $("#horaEvent").val();
@@ -317,7 +437,7 @@ function registrar_menu2(){
      formData.append('grasaTotal',grasaTotal);
      formData.append('proteina',proteina);
      formData.append('preparacion',preparacion);
-     formData.append('descripcion',descripcion);
+     formData.append('contenido',contenido);
      formData.append('ingredientes',ingredientes);
      formData.append('idNutricionista',idNutricionista);
      formData.append('fechaInicio',fechaInicio);
@@ -337,24 +457,32 @@ function registrar_menu2(){
 		data: formData,
 
 		success: function(response){
-
-			recolectar_datos(); 
-            $('#calendario').fullCalendar('renderEvent',nuevo_evento);
-            $("#modals_registro_menu").modal('toggle');
 			
-			
-				//$('#modals_editar_paciente').modal('hide');
-				if(response == 'The process was successful'){	
-					Limpiar_Campos()
-					//return Swal.fire("Mensaje de Confirmación", "El menu registrado con éxito", "success");
-					$("#modal_reg_menu").modal('hide');
-					$('#calendario').fullCalendar('refetchEvents');
-
-				}else if (response == 'error_no_accion'){
-
-					return Swal.fire("Mensaje de Advertencia", "Nutricionista no actualizado", "warning");
+			/*
+				recolectar_datos(); 
+	            $('#calendario').fullCalendar('renderEvent',nuevo_evento);
+	            $('#calendario').fullCalendar('refetchEvents');
+	           // $("#modals_registro_menu").modal('toggle');
+	           $("#modal_reg_menu").modal('toggle');
+	           */
+				console.log(response);
 				
-				}	
+					//$('#modals_editar_paciente').modal('hide');
+					if(response == 200){
+						
+						Limpiar_Campos();
+						Swal.fire("Mensaje de Confirmación", "El menu registrado con éxito", "success");
+						$("#modal_reg_menu").modal('hide');
+						$('#calendario').fullCalendar('refetchEvents');
+
+					}else if(response == 404){
+						return Swal.fire("Mensaje de Advertencia", "Llene los campos vacios", "warning");
+					}else if (response == 'error_no_accion'){
+
+						return Swal.fire("Mensaje de Advertencia", "No se registro menu", "warning");
+					
+					}	
+			
 			
 		},
 		error: function(error){
@@ -403,17 +531,25 @@ function registrar_menu_cargado(){
 		data: formData,
 
 		success: function(response){
-			console.log(response);
-			recolectar_datos2(); 
-            $('#calendario').fullCalendar('renderEvent',nuevo_evento);
 			
-				//$('#modals_editar_paciente').modal('hide');
-				if(response == 'The process was successful'){	
-					Limpiar_Campos()
-					//return Swal.fire("Mensaje de Confirmación", "El menu registrado con éxito", "success");
+			//recolectar_datos2(); 
+            	/*
+				recolectar_datos2(); 
+				$('#calendario').fullCalendar('renderEvent',nuevo_evento);
+				$('#modal_cargar_menu').modal('hide');
+				$('#calendario').fullCalendar('refetchEvents');
+				*/
+				if(response == 200){	
+					console.log(response);
+					recolectar_datos2(); 
+					$('#calendario').fullCalendar('renderEvent',nuevo_evento);
+					Limpiar_Campos();
+					Swal.fire("Mensaje de Confirmación", "El menu registrado con éxito", "success");
 					$("#modal_cargar_menu").modal('hide');
 					$('#calendario').fullCalendar('refetchEvents');
 
+				}else if(response == 404){
+					return Swal.fire("Mensaje de Advertencia", "Llenar campos vacios", "warning");
 				}else if (response == 'error_no_accion'){
 
 					return Swal.fire("Mensaje de Advertencia", "Menu no Agregado", "warning");
@@ -436,9 +572,20 @@ function editar_menu(){
 	var grasa = $("#txtgrasa_editar").val();
 	var proteina = $("#txtproteina_editar").val();
 	var id_menu = $("#id_menu").val();
-	var descripcion1 = descripcion.getData();
-	var preparacion1 = preparacion.getData();
-	var ingredientes1 = ingredientes.getData();
+
+	var descrip = descripcion.getData();
+	var descripcion1 = descrip.replace(/&nbsp;/gi, ' ');
+  	descripcion1 = descripcion1.replace(/&ntilde;/gi, "ñ");
+
+	var ingred = ingredientes.getData();
+	var ingredientes1 = ingred.replace(/&nbsp;/gi, ' ');
+  	ingredientes1 = ingredientes1.replace(/&ntilde;/gi, "ñ");
+
+	var prepara = preparacion.getData();
+	var preparacion1 = prepara.replace(/&nbsp;/gi, ' ');
+	preparacion1 = preparacion1.replace(/&ntilde;/gi, "ñ");
+
+
 	var nombre_preparacion = $("#txtnombre_preparacion_editar").val();
 
 	var tipo_menu = $("#opcion_menu_editar").val();
@@ -476,17 +623,19 @@ function editar_menu(){
 		data: formData,
 
 		success: function(response){
-					
 				if(response == "The process was successfull"){	
+
 					//Limpiar_Campos();
+					
 					$('#modals_editar_menu').modal('hide');
-					return Swal.fire("Mensaje de Confirmación", "El menu de comida se actualizo con éxito", "success");					
-				}else if(response == "error_campos_vacios"){
-					$('#modals_editar_menu').modal('hide');
-					return Swal.fire("Mensaje de Advertencia", "Campos vacios", "warning");
+					Swal.fire("Mensaje de Confirmación", "El menu de comida se actualizo con éxito", "success");					
+				}else if(response == 404){
+					//$('#modals_editar_menu').modal('hide');
+					return Swal.fire("Mensaje de Advertencia", "Llene los campos vacios", "warning");
 
 					
 				}else{
+					consultarMenu();
 					$('#modals_editar_menu').modal('hide');
 					return Swal.fire("Mensaje de Confirmación", "El menu de comida se actualizo con éxito", "success");					
 

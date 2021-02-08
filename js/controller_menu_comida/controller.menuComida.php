@@ -1,16 +1,38 @@
-<?php 
+	<?php 
 include  "../../controllers/curl.controller.php";
 session_start();
 
 	if(!empty($_POST)){
+		/*=============================================
+		Metodo para Listar todos los menus de comida
+		=============================================*/
+		if($_POST['action'] =='consultar'){
+			
+			if(!empty($_SESSION['user']->id_user)){
 
-		if($_POST['action'] == 'registrarMenu'){
+				//metodo para extraer datos de los pacientes con su respectivo menu alimenticio
 
-			if(empty($_POST['idPaciente']) || empty($_POST['nombreMenu']) || empty($_POST['nombrePreparacion']) || empty($_POST['opMenu']) || empty($_POST['calorias']) || empty($_POST['carbohidratos']) || empty($_POST['grasaTotal']) || empty($_POST['proteina']) || empty($_POST['preparacion']) || empty($_POST['descripcion']) || empty($_POST['ingredientes']) || empty($_POST['idNutricionista'])){
+				$url = CurlController::api()."relations?rel=menu_comida,nutri_paciente_menu,nutricionista,paciente&type=menu_comida,nutri_paciente_menu,nutricionista,paciente&linkTo=id_user&orderBy=id_paciente&orderMode=DESC&tabla_estado=menu_comida&select=*&equalTo=".$_SESSION["user"]->id_user;
+				$method = "GET";
+				$fields = array();
+				$header = array();
 
-				echo 'error_campos_vacios';
+				$menuPaciente = CurlController::request($url, $method, $fields, $header)->results;
+			    echo json_encode($menuPaciente, JSON_UNESCAPED_UNICODE);
+			    exit;
+
 			}else{
+				echo 'error_id';
+			}
+		}
+		if($_POST['action'] == 'registrarMenu'){
+			
+			if(empty($_POST['idPaciente']) || empty($_POST['nombreMenu']) || empty($_POST['nombrePreparacion']) || empty($_POST['opMenu']) || empty($_POST['calorias']) || empty($_POST['carbohidratos']) || empty($_POST['grasaTotal']) || empty($_POST['proteina']) || empty($_POST['preparacion']) || empty($_POST['contenido']) || empty($_POST['ingredientes']) || empty($_POST['idNutricionista'])){
 
+				print_r(404);
+				exit;
+			}else{
+					
 				$id_tipo_menu = $_POST['opMenu'];
 				$nombre_menu = $_POST['nombreMenu'];
 				$nombre_preparacion = $_POST['nombrePreparacion'];
@@ -18,7 +40,7 @@ session_start();
 				$carbohidratos_total = $_POST['carbohidratos'];
 				$grasa_total = $_POST['grasaTotal'];
 				$proteina_total = $_POST['proteina'];
-				$descripcion = $_POST['descripcion'];
+				$descripcion = $_POST['contenido'];
 				
 				$preparacion = $_POST['preparacion'];
 				$ingredientes = $_POST['ingredientes'];
@@ -59,7 +81,7 @@ session_start();
 					$imgPaciente = $img_nombre.'.jpg';
 					$src = $destino.$imgPaciente;
 				}
-				
+				//verificar si se registrar solo el menu
 				if($_POST['tittle'] == "undefined" && $_POST['descripcion_event'] == "undefined"){
 
 					$url = CurlController::api()."insertar_menu_comida?token=".$token."&procedure=true&tabla_estado=nutricionista&select=*";
@@ -83,6 +105,7 @@ session_start();
 					$header = array();
 					$pacientes = CurlController::request($url, $method, $fields, $header)->results;
 
+				//registra el menu de comida al paciente y un evento
 				}else{
 					
 					//Conexion a la API 
@@ -92,6 +115,7 @@ session_start();
 					$fields = "id_tipo_menu=".$id_tipo_menu."&nombre_menu=".$nombre_menu."&nombre_preparacion=".$nombre_preparacion."&calorias_total=".$calorias_total."&carbohidratos_total=".$carbohidratos_total."&grasa_total=".$grasa_total."&proteina_total=".$proteina_total."&descripcion=".$descripcion."&imagen_menu=".$imgPaciente."&preparacion=".$preparacion."&ingredientes=".$ingredientes."&id_nutricionista=".$id_nutricionista."&id_paciente=".$id_paciente."&tittle=".$tittle."&descripcion_=".$descripcion_event."&color=".$color."&text_color=#0C0E00&start_=".$fechaInicio."&end_=".$fechaFin."&hora_ini=".$horaIni."&hora_fin=".$horaFin;
 					$header = array();
 					$pacientes = CurlController::request($url, $method, $fields, $header)->results;	
+					
 				}
 				
 
@@ -99,14 +123,21 @@ session_start();
 					if($nombre_foto != ''){
 						move_uploaded_file($url_temp, $src);
 					}
-					print_r($pacientes);
-					exit;
+					if($pacientes == "The process was successful"){
+						print_r(200);
+						exit;
+					}else{
+						print_r(404);
+						exit;
+					}
+					
 			}
 		}else if($_POST['action'] == 'registrarMenu_evento'){
 			
 			if(empty($_POST['idPaciente']) || empty($_POST['opcionMenu']) || empty($_POST['fechaInicio']) || empty($_POST['fechaFin']) || empty($_POST['hora']) || empty($_POST['horaFin'])){
 
-				echo 'error_campos_vacios';
+				print_r(404);
+				exit;
 			}else{
 				
 			//datos del evento
@@ -129,7 +160,8 @@ session_start();
 					$header = array();
 					$response = CurlController::request($url, $method, $fields, $header)->results;
 
-				print_r($response);
+				print_r(200);
+				exit;
 			}
 		}else if($_POST['action'] == 'infoMenu'){
 
@@ -155,7 +187,8 @@ session_start();
 			
 			if(empty($_POST['id_menu']) || empty($_POST['nombre_menu']) || empty($_POST['calorias']) || empty($_POST['carbohidratos']) || empty($_POST['grasa']) || empty($_POST['proteina']) || empty($_POST['preparacion1']) || empty($_POST['ingredientes1']) || empty($_POST['nombre_preparacion']) || empty($_POST['tipo_menu'])){
 
-				echo 'error_campos_vacios';
+				print_r(404);
+				exit;
 			}else{
 
 				$id_menu = $_POST['id_menu'];
@@ -197,7 +230,6 @@ session_start();
 						}
 					}
 
-					
 					//conexion con la API para actualizar el menu alimento 
 					$url = CurlController::api()."menu_comida?id=".$id_menu."&nameId=id_menu_comida&token=".$token."&tabla_estado=menu_comida&select=*";
 					$method = "PUT";
@@ -205,7 +237,7 @@ session_start();
 					$header = array();
 					$menu = CurlController::request($url, $method, $fields, $header)->results;
 
-					if($nombre_foto != '' && ($_POST['fotoActual'] != 'img_menu.jpg') || ($_POST['fotoActual'] != $_POST['fotoRemove'])){
+					if(($nombre_foto != '' && ($_POST['fotoActual'] != 'img_menu.jpg')) || ($_POST['fotoActual'] != $_POST['fotoRemove'])){
 						unlink('../../resources/img/'.$_POST['fotoActual']);
 					}
 

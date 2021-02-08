@@ -2,10 +2,31 @@
 
 include  "../../controllers/curl.controller.php";
 include "../../controllers/template.controller.php";
+include "../../controllers/users.controller.php";
+include "paciente.controller.php";
 session_start();
 
 if(!empty($_POST)){
-	
+	/*=============================================
+	Metodo para Listar todos los pacientes
+	=============================================*/
+	if($_POST['action'] =='consultar'){
+		
+		if(!empty($_SESSION['user']->id_user)){
+
+			  $url = CurlController::api()."relations?rel=nutricionista,paciente,users&type=nutricionista,paciente,user&linkTo=id_user&equalTo=".$_SESSION["user"]->id_user."&orderBy=id_paciente&orderMode=DESC&tabla_estado=users&select=*";
+		   	 $method = "GET";
+		    $fields = array();
+		    $header = array();
+
+		    $pacientes = CurlController::request($url, $method, $fields, $header)->results;  
+		    echo json_encode($pacientes, JSON_UNESCAPED_UNICODE);
+		    exit;
+
+		}else{
+			echo 'error_id';
+		}
+	}
 	/*=============================================
 	Metodo para registrar un paciente
 	=============================================*/
@@ -41,7 +62,8 @@ if(!empty($_POST)){
 				//crear variables del dsplay name y user
 				$display_name = TemplateController::capitalize(strtolower($nombre))." ".TemplateController::capitalize(strtolower($apellido));
 				$nombre_user = strtolower(explode("@", $email)[0]);
-
+				
+				
 				$url = CurlController::api()."users?register_paciente=true";
 				$method = "POST";
 				$fields = array(
@@ -61,7 +83,7 @@ if(!empty($_POST)){
  					"email_user" => $email,
  					"id_nutricionista" => $id_nutricionista ,
  					"method_user" => "direct",	
- 					"verificar_user" => 1,
+ 					"verificar_user" => 0,
  					"display_name" => $display_name,
  					"date_create_user" => date("Y-m-d"),
  					
@@ -72,9 +94,39 @@ if(!empty($_POST)){
  				);
 
  				$register = CurlController::request($url, $method, $fields, $header);
- 				echo $register->results;
- 				return;
  				
+                
+ 				if($register->status == 200){
+
+ 					$name = $display_name;
+ 					$subject = "Verificar cuenta";
+ 					$email = $email;
+ 					$message = "Nosotros necesitamos que verifiques tu cuenta para Quipanutri";
+ 					$url = TemplateController::path()."login/".base64_encode($email);
+
+ 					$sendEmail = new PacienteController();
+ 					//$sendEmail1 = TemplateController::sendEmail($name1,$subject1, $email1, $message1, $url1);
+ 					$sendEmail = PacienteController::enviarEmail($name,$subject, $email, $message, $url);
+
+ 					if($sendEmail == "Ok"){
+ 						echo '200';
+ 						return;
+ 					}else{
+ 						echo '<div class = "alert alert-danger">'.$sendEmail.'</div>
+
+ 							<script>
+ 								fncFormatInputs()
+ 							</script>
+ 						';
+ 						return;
+ 					}
+ 				}else{
+
+ 					echo '404';
+ 					
+ 				}
+ 				
+	
 			}else{
 				echo 'error_campos_vacios';
 			}

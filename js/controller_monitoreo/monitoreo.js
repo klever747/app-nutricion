@@ -3,16 +3,18 @@ function registrarMonitoreo()
 {
 	var id_paciente = $("#opcion_paciente_monioreo").val();
 	var descripcion = editor.getData();
+	var contenido = descripcion.replace(/&nbsp;/gi, ' ');
+  	contenido = contenido.replace(/&ntilde;/gi, "ñ");
 	var action = 'registroMonitoreo';
 	
 	$.ajax({
 		url: '../../js/controller_monitoreo/controller.monitoreo.php',
 		type: 'POST',
 		async: true,
-		data:{action:action,id_paciente:id_paciente,descripcion:descripcion}
+		data:{action:action,id_paciente:id_paciente,contenido:contenido}
         ,
 		success: function(response){
-			
+			console.log(response);
 			if(response == 'The process was successful'){
 				limpiar_campos();
 				CerrarModalsRegistroMonitoreo();
@@ -41,6 +43,8 @@ function registrarMonitoreo()
 function editarMonitoreo(){
 	var id_monitoreo = $("#idMonitoreo").val();
 	var descripcion_monitoreo = monitoreoEdit.getData();
+	var contenido = descripcion_monitoreo.replace(/&nbsp;/gi, ' ');
+  	contenido = contenido.replace(/&ntilde;/gi, "ñ");
 	var action = 'actualizarMonitoreo';
 
 	$.ajax({
@@ -48,7 +52,7 @@ function editarMonitoreo(){
 		type: 'POST',
 		async: true,
 		data:{action:action, id_monitoreo:id_monitoreo, 
-			descripcion_monitoreo:descripcion_monitoreo},
+			contenido:contenido},
 		success: function(response){
 
 			if(response == 'The process was successfull'){

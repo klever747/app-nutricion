@@ -1,5 +1,5 @@
 <?php 
-	
+
  class UsersController{
 
  	/*=============================================
@@ -86,6 +86,7 @@
  		}
  		
  	}
+
  	/*=============================================
  	 Login de usuarios 
  	=============================================*/
@@ -546,6 +547,7 @@
 								 			fncSweetAlert("success","Contraseña actualizada, Revice su correo", "");
 										 </script>
 									';
+
 			 					}else{
 
 			 						echo '
@@ -619,17 +621,11 @@
 			 	$updatePassword = CurlController::request($url, $method, $fields, $header);
 
 			 	if($updatePassword->status == 200){
-			 		echo '
-							 <script>
-										 								
-					 			fncFormatInputs();
-					 			fncSweetAlert("success","Contraseña actualizada, Revisa tu correo", "");
-							 </script>
-						';
+	
 					/*=============================================
 	 	 			Enviamos el Email para restablecer contraseña
 	 				=============================================*/
-	 				/*
+	 				
 					$name = $_SESSION['user']->display_name;
 
 			 		$subject = "Cambio de Contraseña";
@@ -638,15 +634,15 @@
 			 		$message = "Tu has cambiado de contraseña";
 			 		$url = TemplateController::path()."login/";
 
-			 	$sendEmail = TemplateController::sendEmail($name, $subject, $email, $message, $url);
+			 		$sendEmail = TemplateController::sendEmail($name, $subject, $email, $message, $url);
 			 	
 			 		if($sendEmail == "Ok"){
-
 			 		 	echo '
 							 <script>
 										 								
-					 			fncFormatInputs();
+					 			window.location = "'.TemplateController::path().'";
 					 			fncSweetAlert("success","Contraseña actualizada, Revisa tu correo", "");
+
 							 </script>
 						';
 			 		}else{
@@ -660,7 +656,7 @@
 						 </script>
 						';
 			 		}
-			 		*/
+			 		
 				}else{
 					if($updatePassword->status == 303){
 			 			echo '

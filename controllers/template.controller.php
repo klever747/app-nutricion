@@ -1,6 +1,7 @@
 <?php 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
 class TemplateController{
 
 	/*=============================================
@@ -38,7 +39,7 @@ class TemplateController{
 
 	static public function sendEmail($name, $subject, $email, $message, $url){
 		date_default_timezone_set("America/Guayaquil");
-
+		
 		$mail = new PHPMailer;
 
 		$mail->Charset = "UTF-8";
